@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"strings"
 	"sync"
 )
 
@@ -470,7 +471,8 @@ func (u *URI) updateBytes(newURI, buf []byte) []byte {
 		return buf
 	}
 
-	n := bytes.Index(newURI, strSlashSlash)
+	newURIWithoutQueryString := strings.Split(string(newURI), "?")[0]
+	n := bytes.Index([]byte(newURIWithoutQueryString), strSlashSlash)
 	if n >= 0 {
 		// absolute uri
 		var b [32]byte
